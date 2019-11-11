@@ -6,7 +6,6 @@ extensions:
 	orm: Nettrine\ORM\DI\OrmExtension
 	orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
 	orm.cache: Nettrine\ORM\DI\OrmCacheExtension
-	doctrineConsistence: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
 
 dbal:
 	connection:
