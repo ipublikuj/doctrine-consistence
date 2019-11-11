@@ -42,9 +42,13 @@ class ExtensionTest extends Tester\TestCase
 {
 	public function testFunctional() : void
 	{
+		$dic = $this->createContainer();
+
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\FloatEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\IntegerEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\StringEnumType::NAME));
+
+		Assert::true($dic->getService('doctrineConsistence.subscriber') instanceof DoctrineConsistence\Subscribers\EnumSubscriber);
 	}
 
 	/**
