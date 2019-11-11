@@ -1,0 +1,21 @@
+php:
+	date.timezone: Europe/Prague
+
+extensions:
+	dbal: Nettrine\DBAL\DI\DbalExtension
+	orm: Nettrine\ORM\DI\OrmExtension
+	orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
+	orm.cache: Nettrine\ORM\DI\OrmCacheExtension
+	doctrineConsistence: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
+
+dbal:
+	connection:
+		host: 127.0.0.1
+		driver: pdo_sqlite
+		memory: true
+
+orm.annotations:
+	defaultCache: array
+
+orm.cache:
+	defaultDriver: array
