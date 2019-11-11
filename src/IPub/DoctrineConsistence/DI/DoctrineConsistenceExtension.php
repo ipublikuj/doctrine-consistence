@@ -21,6 +21,8 @@ use Nette\DI;
 
 use Consistence\Doctrine\Enum\Type;
 
+use IPub\DoctrineConsistence;
+
 /**
  * Doctrine consistence extension container
  *
@@ -32,6 +34,32 @@ use Consistence\Doctrine\Enum\Type;
 final class DoctrineConsistenceExtension extends DI\CompilerExtension
 {
 	/**
+	 * @var array
+	 */
+	private $defaults = [
+		'tag' => 'nettrine.subscriber',
+	];
+
+	/**
+	 * @return void
+	 */
+	public function loadConfiguration() : void
+	{
+		// Get container builder
+		$builder = $this->getContainerBuilder();
+
+		// Merge extension default config
+		$this->setConfig(DI\Config\Helpers::merge($this->config, DI\Helpers::expand($this->defaults, $builder->parameters)));
+
+		// Get extension configuration
+		$configuration = $this->getConfig();
+
+		$builder->addDefinition($this->prefix('subscriber'))
+			->setType(DoctrineConsistence\Subscribers\EnumSubscriber::class)
+			->addTag($configuration['tag']);
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function afterCompile(Nette\PhpGenerator\ClassType $class) : void
@@ -41,9 +69,9 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 		/** @var Nette\PhpGenerator\Method $initialize */
 		$initialize = $class->getMethods()['initialize'];
 
-		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\''. Type\FloatEnumType::NAME .'\')) { Doctrine\DBAL\Types\Type::addType(\''. Type\FloatEnumType::NAME .'\', \''. Type\FloatEnumType::class .'\'); }');
-		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\''. Type\IntegerEnumType::NAME .'\')) { Doctrine\DBAL\Types\Type::addType(\''. Type\IntegerEnumType::NAME .'\', \''. Type\IntegerEnumType::class .'\'); }');
-		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\''. Type\StringEnumType::NAME .'\')) { Doctrine\DBAL\Types\Type::addType(\''. Type\StringEnumType::NAME .'\', \''. Type\StringEnumType::class .'\'); }');
+		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\FloatEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\FloatEnumType::NAME . '\', \'' . Type\FloatEnumType::class . '\'); }');
+		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\IntegerEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\IntegerEnumType::NAME . '\', \'' . Type\IntegerEnumType::class . '\'); }');
+		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\StringEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\StringEnumType::NAME . '\', \'' . Type\StringEnumType::class . '\'); }');
 	}
 
 	/**
