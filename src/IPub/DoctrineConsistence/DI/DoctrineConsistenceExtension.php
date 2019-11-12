@@ -37,7 +37,16 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	 * @var array
 	 */
 	private $defaults = [
-		'tag' => 'nettrine.subscriber',
+		'types'      => [
+			'boolean' => TRUE,
+			'float'   => TRUE,
+			'integer' => TRUE,
+			'string'  => TRUE,
+		],
+		'subscriber' => [
+			'enabled' => TRUE,
+			'tag'     => 'nettrine.subscriber',
+		],
 	];
 
 	/**
@@ -54,9 +63,11 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 		// Get extension configuration
 		$configuration = $this->getConfig();
 
-		$builder->addDefinition($this->prefix('subscriber'))
-			->setType(DoctrineConsistence\EnumSubscriber::class)
-			->addTag($configuration['tag']);
+		if ($configuration['subscriber']['tag']) {
+			$builder->addDefinition($this->prefix('subscriber'))
+				->setType(DoctrineConsistence\EnumSubscriber::class)
+				->addTag($configuration['subscriber']['tag']);
+		}
 	}
 
 	/**
@@ -69,9 +80,21 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 		/** @var Nette\PhpGenerator\Method $initialize */
 		$initialize = $class->getMethods()['initialize'];
 
-		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\FloatEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\FloatEnumType::NAME . '\', \'' . Type\FloatEnumType::class . '\'); }');
-		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\IntegerEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\IntegerEnumType::NAME . '\', \'' . Type\IntegerEnumType::class . '\'); }');
-		$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\StringEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\StringEnumType::NAME . '\', \'' . Type\StringEnumType::class . '\'); }');
+		if ($configuration['types']['boolean']) {
+			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\BooleanEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\BooleanEnumType::NAME . '\', \'' . Type\BooleanEnumType::class . '\'); }');
+		}
+
+		if ($configuration['types']['float']) {
+			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\FloatEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\FloatEnumType::NAME . '\', \'' . Type\FloatEnumType::class . '\'); }');
+		}
+
+		if ($configuration['types']['integer']) {
+			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\IntegerEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\IntegerEnumType::NAME . '\', \'' . Type\IntegerEnumType::class . '\'); }');
+		}
+
+		if ($configuration['types']['string']) {
+			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\StringEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\StringEnumType::NAME . '\', \'' . Type\StringEnumType::class . '\'); }');
+		}
 	}
 
 	/**
