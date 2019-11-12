@@ -44,6 +44,7 @@ class ExtensionTest extends Tester\TestCase
 	{
 		$dic = $this->createContainer();
 
+		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\BooleanEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\FloatEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\IntegerEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\StringEnumType::NAME));
