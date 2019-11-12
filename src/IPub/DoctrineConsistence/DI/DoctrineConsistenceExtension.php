@@ -77,6 +77,15 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	{
 		parent::afterCompile($class);
 
+		// Get container builder
+		$builder = $this->getContainerBuilder();
+
+		// Merge extension default config
+		$this->setConfig(DI\Config\Helpers::merge($this->config, DI\Helpers::expand($this->defaults, $builder->parameters)));
+
+		// Get extension configuration
+		$configuration = $this->getConfig();
+
 		/** @var Nette\PhpGenerator\Method $initialize */
 		$initialize = $class->getMethods()['initialize'];
 
