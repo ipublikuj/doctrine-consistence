@@ -31,6 +31,16 @@
     "issues" : "https://github.com/iPublikuj/doctrine-consistence/issues"
   },
 
+  "extra" : {
+    "ipub" : {
+      "configuration" : {
+        "extensions" : {
+          "doctrineConsistence" : "IPub\\DoctrineConsistence\\DI\\DoctrineConsistenceExtension"
+        }
+      }
+    }
+  },
+
   "require" : {
     "doctrine/orm" : "~2.5",
 
