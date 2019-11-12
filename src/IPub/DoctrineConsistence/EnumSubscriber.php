@@ -6,7 +6,7 @@
  * @license        https://www.ipublikuj.eu
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:DoctrineConsistence!
- * @subpackage     Events
+ * @subpackage     Subscribers
  * @since          1.0.0
  *
  * @date           11.11.19
@@ -14,7 +14,7 @@
 
 declare(strict_types = 1);
 
-namespace IPub\DoctrineConsistence\Subscribers;
+namespace IPub\DoctrineConsistence;
 
 use Consistence\Doctrine\Enum;
 
@@ -23,13 +23,11 @@ use Doctrine\ORM;
 
 use Nette;
 
-use IPub\UsersModule\Entities;
-
 /**
  * Enum types subscriber
  *
  * @package        iPublikuj:DoctrineConsistence!
- * @subpackage     Events
+ * @subpackage     Subscribers
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  *

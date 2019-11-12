@@ -55,7 +55,7 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 		$configuration = $this->getConfig();
 
 		$builder->addDefinition($this->prefix('subscriber'))
-			->setType(DoctrineConsistence\Subscribers\EnumSubscriber::class)
+			->setType(DoctrineConsistence\EnumSubscriber::class)
 			->addTag($configuration['tag']);
 	}
 

@@ -48,7 +48,7 @@ class ExtensionTest extends Tester\TestCase
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\IntegerEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\StringEnumType::NAME));
 
-		Assert::true($dic->getService('doctrineConsistence.subscriber') instanceof DoctrineConsistence\Subscribers\EnumSubscriber);
+		Assert::true($dic->getService('doctrineConsistence.subscriber') instanceof DoctrineConsistence\EnumSubscriber);
 	}
 
 	/**
