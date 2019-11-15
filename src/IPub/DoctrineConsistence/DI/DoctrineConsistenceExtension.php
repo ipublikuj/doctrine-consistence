@@ -56,12 +56,12 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	{
 		// Get container builder
 		$builder = $this->getContainerBuilder();
-
-		// Merge extension default config
-		$this->setConfig(DI\Config\Helpers::merge($this->config, DI\Helpers::expand($this->defaults, $builder->parameters)));
-
-		// Get extension configuration
-		$configuration = $this->getConfig();
+		/** @var array $configuration */
+		if (method_exists($this, 'validateConfig')) {
+			$configuration = $this->validateConfig($this->defaults);
+		} else {
+			$configuration = $this->getConfig($this->defaults);
+		}
 
 		if ($configuration['subscriber']['tag']) {
 			$builder->addDefinition($this->prefix('subscriber'))
@@ -79,12 +79,12 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 
 		// Get container builder
 		$builder = $this->getContainerBuilder();
-
-		// Merge extension default config
-		$this->setConfig(DI\Config\Helpers::merge($this->config, DI\Helpers::expand($this->defaults, $builder->parameters)));
-
-		// Get extension configuration
-		$configuration = $this->getConfig();
+		/** @var array $configuration */
+		if (method_exists($this, 'validateConfig')) {
+			$configuration = $this->validateConfig($this->defaults);
+		} else {
+			$configuration = $this->getConfig($this->defaults);
+		}
 
 		/** @var Nette\PhpGenerator\Method $initialize */
 		$initialize = $class->getMethods()['initialize'];
