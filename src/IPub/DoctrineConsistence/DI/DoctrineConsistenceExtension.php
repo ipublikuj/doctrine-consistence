@@ -77,8 +77,6 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	{
 		parent::afterCompile($class);
 
-		// Get container builder
-		$builder = $this->getContainerBuilder();
 		/** @var array $configuration */
 		if (method_exists($this, 'validateConfig')) {
 			$configuration = $this->validateConfig($this->defaults);
