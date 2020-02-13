@@ -6,7 +6,7 @@
  * @license        https://www.ipublikuj.eu
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:DoctrineConsistence!
- * @subpackage     Subscribers
+ * @subpackage     Events
  * @since          1.0.0
  *
  * @date           11.11.19
@@ -14,7 +14,7 @@
 
 declare(strict_types = 1);
 
-namespace IPub\DoctrineConsistence;
+namespace IPub\DoctrineConsistence\Events;
 
 use Consistence\Doctrine\Enum;
 
@@ -27,11 +27,9 @@ use Nette;
  * Enum types subscriber
  *
  * @package        iPublikuj:DoctrineConsistence!
- * @subpackage     Subscribers
+ * @subpackage     Events
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
- *
- * @module         ipub/users-module
  */
 final class EnumSubscriber extends Enum\EnumPostLoadEntityListener implements Common\EventSubscriber
 {

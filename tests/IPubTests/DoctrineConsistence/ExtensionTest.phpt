@@ -1,6 +1,7 @@
 <?php
 /**
  * Test: IPub\DoctrineConsistence\Extension
+ *
  * @testCase
  *
  * @copyright      More in license.md
@@ -26,7 +27,8 @@ use Consistence\Doctrine\Enum\Type;
 use Tester;
 use Tester\Assert;
 
-use IPub\DoctrineConsistence;
+use IPub\DoctrineConsistence\DI;
+use IPub\DoctrineConsistence\Events;
 
 require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
@@ -49,7 +51,7 @@ class ExtensionTest extends Tester\TestCase
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\IntegerEnumType::NAME));
 		Assert::true(Doctrine\DBAL\Types\Type::hasType(Type\StringEnumType::NAME));
 
-		Assert::true($dic->getService('doctrineConsistence.subscriber') instanceof DoctrineConsistence\EnumSubscriber);
+		Assert::true($dic->getService('doctrineConsistence.subscriber') instanceof Events\EnumSubscriber);
 	}
 
 	/**
@@ -67,7 +69,7 @@ class ExtensionTest extends Tester\TestCase
 
 		$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
 
-		DoctrineConsistence\DI\DoctrineConsistenceExtension::register($config);
+		DI\DoctrineConsistenceExtension::register($config);
 
 		return $config->createContainer();
 	}
