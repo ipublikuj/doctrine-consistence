@@ -18,10 +18,11 @@ namespace IPub\DoctrineConsistence\DI;
 
 use Nette;
 use Nette\DI;
+use Nette\Schema;
 
 use Consistence\Doctrine\Enum\Type;
 
-use IPub\DoctrineConsistence;
+use IPub\DoctrineConsistence\Events;
 
 /**
  * Doctrine consistence extension container
@@ -33,6 +34,21 @@ use IPub\DoctrineConsistence;
  */
 final class DoctrineConsistenceExtension extends DI\CompilerExtension
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getConfigSchema() : Schema\Schema
+	{
+		return Schema\Expect::structure([
+			'types'      => Schema\Expect::structure([
+				'boolean' => Schema\Expect::bool(TRUE),
+				'float'   => Schema\Expect::bool(TRUE),
+				'integer' => Schema\Expect::bool(TRUE),
+				'string'  => Schema\Expect::bool(TRUE),
+			]),
+		]);
+	}
+
 	/**
 	 * @var array
 	 */
@@ -54,20 +70,10 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	 */
 	public function loadConfiguration() : void
 	{
-		// Get container builder
 		$builder = $this->getContainerBuilder();
-		/** @var array $configuration */
-		if (method_exists($this, 'validateConfig')) {
-			$configuration = $this->validateConfig($this->defaults);
-		} else {
-			$configuration = $this->getConfig($this->defaults);
-		}
 
-		if ($configuration['subscriber']['tag']) {
-			$builder->addDefinition($this->prefix('subscriber'))
-				->setType(DoctrineConsistence\EnumSubscriber::class)
-				->addTag($configuration['subscriber']['tag']);
-		}
+		$builder->addDefinition($this->prefix('subscriber'))
+			->setType(Events\EnumSubscriber::class);
 	}
 
 	/**
@@ -77,30 +83,53 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	{
 		parent::afterCompile($class);
 
-		/** @var array $configuration */
-		if (method_exists($this, 'validateConfig')) {
-			$configuration = $this->validateConfig($this->defaults);
-		} else {
-			$configuration = $this->getConfig($this->defaults);
-		}
+		$configuration = $this->getConfig();
 
 		/** @var Nette\PhpGenerator\Method $initialize */
 		$initialize = $class->getMethods()['initialize'];
 
-		if ($configuration['types']['boolean']) {
-			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\BooleanEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\BooleanEnumType::NAME . '\', \'' . Type\BooleanEnumType::class . '\'); }');
+		if ($configuration->types->boolean) {
+			$initialize->addBody(
+				'if (!Doctrine\DBAL\Types\Type::hasType(?)) { Doctrine\DBAL\Types\Type::addType(?, ?); }',
+				[
+					Type\BooleanEnumType::NAME,
+					Type\BooleanEnumType::NAME,
+					Type\BooleanEnumType::class,
+				]
+			);
 		}
 
-		if ($configuration['types']['float']) {
-			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\FloatEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\FloatEnumType::NAME . '\', \'' . Type\FloatEnumType::class . '\'); }');
+		if ($configuration->types->float) {
+			$initialize->addBody(
+				'if (!Doctrine\DBAL\Types\Type::hasType(?)) { Doctrine\DBAL\Types\Type::addType(?, ?); }',
+				[
+					Type\FloatEnumType::NAME,
+					Type\FloatEnumType::NAME,
+					Type\FloatEnumType::class,
+				]
+			);
 		}
 
-		if ($configuration['types']['integer']) {
-			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\IntegerEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\IntegerEnumType::NAME . '\', \'' . Type\IntegerEnumType::class . '\'); }');
+		if ($configuration->types->integer) {
+			$initialize->addBody(
+				'if (!Doctrine\DBAL\Types\Type::hasType(?)) { Doctrine\DBAL\Types\Type::addType(?, ?); }',
+				[
+					Type\IntegerEnumType::NAME,
+					Type\IntegerEnumType::NAME,
+					Type\IntegerEnumType::class,
+				]
+			);
 		}
 
-		if ($configuration['types']['string']) {
-			$initialize->addBody('if (!Doctrine\DBAL\Types\Type::hasType(\'' . Type\StringEnumType::NAME . '\')) { Doctrine\DBAL\Types\Type::addType(\'' . Type\StringEnumType::NAME . '\', \'' . Type\StringEnumType::class . '\'); }');
+		if ($configuration->types->string) {
+			$initialize->addBody(
+				'if (!Doctrine\DBAL\Types\Type::hasType(?)) { Doctrine\DBAL\Types\Type::addType(?, ?); }',
+				[
+					Type\StringEnumType::NAME,
+					Type\StringEnumType::NAME,
+					Type\StringEnumType::class,
+				]
+			);
 		}
 	}
 
@@ -110,8 +139,10 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	 *
 	 * @return void
 	 */
-	public static function register(Nette\Configurator $config, string $extensionName = 'doctrineConsistence') : void
-	{
+	public static function register(
+		Nette\Configurator $config,
+		string $extensionName = 'doctrineConsistence'
+	) : void {
 		$config->onCompile[] = function (Nette\Configurator $config, Nette\DI\Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new DoctrineConsistenceExtension);
 		};
