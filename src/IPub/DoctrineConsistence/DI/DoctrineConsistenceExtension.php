@@ -50,22 +50,6 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	}
 
 	/**
-	 * @var array
-	 */
-	private $defaults = [
-		'types'      => [
-			'boolean' => TRUE,
-			'float'   => TRUE,
-			'integer' => TRUE,
-			'string'  => TRUE,
-		],
-		'subscriber' => [
-			'enabled' => TRUE,
-			'tag'     => 'nettrine.subscriber',
-		],
-	];
-
-	/**
 	 * @return void
 	 */
 	public function loadConfiguration() : void
