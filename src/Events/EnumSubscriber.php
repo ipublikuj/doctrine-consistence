@@ -1,26 +1,23 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * EnumSubscriber.php
  *
- * @copyright      More in license.md
+ * @copyright      More in LICENSE.md
  * @license        https://www.ipublikuj.eu
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:DoctrineConsistence!
  * @subpackage     Events
- * @since          1.0.0
+ * @since          0.1.0
  *
  * @date           11.11.19
  */
 
-declare(strict_types = 1);
-
 namespace IPub\DoctrineConsistence\Events;
 
 use Consistence\Doctrine\Enum;
-
 use Doctrine\Common;
 use Doctrine\ORM;
-
 use Nette;
 
 /**
@@ -33,9 +30,7 @@ use Nette;
  */
 final class EnumSubscriber extends Enum\EnumPostLoadEntityListener implements Common\EventSubscriber
 {
-	/**
-	 * Implement nette smart magic
-	 */
+
 	use Nette\SmartObject;
 
 	/**
@@ -43,7 +38,7 @@ final class EnumSubscriber extends Enum\EnumPostLoadEntityListener implements Co
 	 *
 	 * @return string[]
 	 */
-	public function getSubscribedEvents() : array
+	public function getSubscribedEvents(): array
 	{
 		return [
 			ORM\Events::postLoad,
@@ -53,6 +48,7 @@ final class EnumSubscriber extends Enum\EnumPostLoadEntityListener implements Co
 	public function __construct(
 		Common\Annotations\Reader $annotationReader
 	) {
-		parent::__construct($annotationReader, NULL);
+		parent::__construct($annotationReader, null);
 	}
+
 }

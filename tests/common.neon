@@ -33,3 +33,6 @@ nettrineAnnotations:
 nettrineOrm:
 	configuration:
 		proxyDir	: %tempDir%/cache/doctrine.proxies
+
+nettrineOrmAnnotations:
+	mapping: []

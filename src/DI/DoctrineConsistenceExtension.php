@@ -1,28 +1,26 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * DoctrineConsistenceExtension.php
  *
- * @copyright      More in license.md
+ * @copyright      More in LICENSE.md
  * @license        https://www.ipublikuj.eu
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:DoctrineConsistence!
  * @subpackage     DI
- * @since          1.0.0
+ * @since          0.1.0
  *
  * @date           11.11.19
  */
 
-declare(strict_types = 1);
-
 namespace IPub\DoctrineConsistence\DI;
 
+use Consistence\Doctrine\Enum\Type;
+use IPub\DoctrineConsistence\Events;
 use Nette;
 use Nette\DI;
 use Nette\Schema;
-
-use Consistence\Doctrine\Enum\Type;
-
-use IPub\DoctrineConsistence\Events;
+use stdClass;
 
 /**
  * Doctrine consistence extension container
@@ -31,20 +29,23 @@ use IPub\DoctrineConsistence\Events;
  * @subpackage     DI
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ *
+ * @property-read stdClass $config
  */
 final class DoctrineConsistenceExtension extends DI\CompilerExtension
 {
+
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getConfigSchema() : Schema\Schema
+	public function getConfigSchema(): Schema\Schema
 	{
 		return Schema\Expect::structure([
-			'types'      => Schema\Expect::structure([
-				'boolean' => Schema\Expect::bool(TRUE),
-				'float'   => Schema\Expect::bool(TRUE),
-				'integer' => Schema\Expect::bool(TRUE),
-				'string'  => Schema\Expect::bool(TRUE),
+			'types' => Schema\Expect::structure([
+				'boolean' => Schema\Expect::bool(true),
+				'float'   => Schema\Expect::bool(true),
+				'integer' => Schema\Expect::bool(true),
+				'string'  => Schema\Expect::bool(true),
 			]),
 		]);
 	}
@@ -52,8 +53,9 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	/**
 	 * @return void
 	 */
-	public function loadConfiguration() : void
+	public function loadConfiguration(): void
 	{
+		// Get container builder
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('subscriber'))
@@ -63,11 +65,11 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	/**
 	 * {@inheritdoc}
 	 */
-	public function afterCompile(Nette\PhpGenerator\ClassType $class) : void
+	public function afterCompile(Nette\PhpGenerator\ClassType $class): void
 	{
 		parent::afterCompile($class);
 
-		$configuration = $this->getConfig();
+		$configuration = $this->config;
 
 		/** @var Nette\PhpGenerator\Method $initialize */
 		$initialize = $class->getMethods()['initialize'];
@@ -126,9 +128,10 @@ final class DoctrineConsistenceExtension extends DI\CompilerExtension
 	public static function register(
 		Nette\Configurator $config,
 		string $extensionName = 'doctrineConsistence'
-	) : void {
-		$config->onCompile[] = function (Nette\Configurator $config, Nette\DI\Compiler $compiler) use ($extensionName) {
-			$compiler->addExtension($extensionName, new DoctrineConsistenceExtension);
+	): void {
+		$config->onCompile[] = function (Nette\Configurator $config, Nette\DI\Compiler $compiler) use ($extensionName): void {
+			$compiler->addExtension($extensionName, new DoctrineConsistenceExtension());
 		};
 	}
+
 }
