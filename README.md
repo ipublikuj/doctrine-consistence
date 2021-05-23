@@ -15,14 +15,14 @@ Register [Consistence](https://github.com/consistence/consistence-doctrine) data
 The best way to install ipub/doctrine-consistence is using [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require ipub/doctrine-consistence
+composer require ipub/doctrine-consistence
 ```
 
 After that you have to register extension in config.neon.
 
 ```neon
 extensions:
-	doctrineConsistence: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
+    doctrineConsistence: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
 ```
 
 ## Documentation
