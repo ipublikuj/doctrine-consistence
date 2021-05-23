@@ -12,7 +12,7 @@ Register [Consistence](https://github.com/consistence/consistence-doctrine) data
 
 ## Installation
 
-The best way to install ipub/doctrine-consistence is using [Composer](http://getcomposer.org/):
+The best way to install **ipub/doctrine-consistence** is using [Composer](http://getcomposer.org/):
 
 ```sh
 composer require ipub/doctrine-consistence
