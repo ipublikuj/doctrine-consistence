@@ -1,14 +1,15 @@
 # Doctrine 2 Consistence
 
 [![Build Status](https://badgen.net/github/checks/ipublikuj/doctrine-consistence/master?cache=300&style=flast-square)](https://github.com/ipublikuj/doctrine-consistence)
+[![Licence](https://badgen.net/github/license/ipublikuj/doctrine-consistence?cache=300&style=flat-square)](https://github.com/ipublikuj/doctrine-consistence/blob/master/LICENSE.md)
 [![Code coverage](https://badgen.net/coveralls/c/github/ipublikuj/doctrine-consistence?cache=300&style=flast-square)](https://coveralls.io/github/ipublikuj/doctrine-consistence)
+
 ![PHP](https://badgen.net/packagist/php/ipub/doctrine-consistence?cache=300&style=flast-square)
-[![Licence](https://badgen.net/packagist/license/ipub/doctrine-consistence?cache=300&style=flast-square)](https://github.com/ipublikuj/doctrine-consistence/blob/master/LICENSE.md)
 [![Downloads total](https://badgen.net/packagist/dt/ipub/doctrine-consistence?cache=300&style=flast-square)](https://packagist.org/packages/ipub/doctrine-consistence)
 [![Latest stable](https://badgen.net/packagist/v/ipub/doctrine-consistence/latest?cache=300&style=flast-square)](https://packagist.org/packages/ipub/doctrine-consistence)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
-Register [Consistence](https://github.com/consistence/consistence-doctrine) data types into [Doctrine2](http://www.doctrine-project.org/) entity repository. 
+Register [Consistence](https://github.com/consistence-community/consistence-doctrine) data types into [Doctrine2](http://www.doctrine-project.org/) entity repository. 
 
 ## Installation
 
