@@ -41,7 +41,7 @@
 
   "require" : {
     "php": ">=7.4.0|>=8.0.0",
-    "consistence-community/consistence-doctrine": "^2.0",
+    "consistence-community/consistence-doctrine": "^2.1",
     "doctrine/orm": "^2.6",
     "nette/bootstrap": "^3.1",
     "nette/di": "^3.0"
